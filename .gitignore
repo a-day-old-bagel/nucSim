@@ -321,6 +321,5 @@ CMakeSettings.json
 # VS Code
 /.vscode*
 
-# PI_MC executable and files
-PI_MC
-*.dat
+# more build directories
+cmake-build*
