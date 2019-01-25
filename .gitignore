@@ -323,3 +323,5 @@ CMakeSettings.json
 
 # more build directories
 cmake-build*
+*CMakeFiles*
+*CMakeCache*
