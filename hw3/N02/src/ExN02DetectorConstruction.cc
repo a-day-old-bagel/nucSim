@@ -116,18 +116,12 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
   new G4Material("XenonGas", z=54., a=131.29*g/mole, density= 5.458*mg/cm3,
                  kStateGas, temperature= 293.15*kelvin, pressure= 1*atmosphere);
 
-  // Liquid Hydrogen
-  // G4Material *LH2 = new G4Material("Hydrogen", z = 1.0, a = 1.01 * g/mole,
-  // density = 0.07 * g/cm3, kStateGas, 3 * kelvin, 1.7e5 * pascal);
-
   // Print all the materials defined.
-  //
   G4cout << G4endl << "The materials defined are : " << G4endl << G4endl;
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 //--------- Sizes of the principal geometrical components (solids)  ---------
   
-  // NbOfChambers = 5;
   NbOfChambers = 1;
   ChamberWidth = 20*cm;
   ChamberSpacing = 80*cm;
@@ -135,10 +129,8 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
   fTrackerLength = (NbOfChambers+1)*ChamberSpacing; // Full length of Tracker
   fTargetLength  = 5.0 * cm;                        // Full length of Target
   
-  // TargetMater  = Pb;
   TargetMater = LH2;
   ChamberMater = Xenon;
-  // ChamberMater = BadVacuum;
   
   fWorldLength= 1.2 *(fTargetLength+fTrackerLength);
    

@@ -36,13 +36,20 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+FILE *chartOut;
+static bool hasRecordedFirstDEDX = false;
+
 ExN02SteppingVerbose::ExN02SteppingVerbose()
-{}
+{
+	chartOut = fopen("chart.txt", "w");	
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 ExN02SteppingVerbose::~ExN02SteppingVerbose()
-{} 
+{
+	fclose(chartOut);
+} 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -60,18 +67,22 @@ void ExN02SteppingVerbose::StepInfo()
              << std::setw( 9) << "KineE"      << " "
              << std::setw( 9) << "dEStep"     << " "  
              << std::setw(10) << "StepLeng"   << " "     
-             << std::setw( 9) << "dE/dx"
+             << std::setw(14) << "dE/dx"
              << std::setw(14) << "TrakLeng"   << G4endl; 
     }
 
     float dedx = fStep->GetTotalEnergyDeposit() / fStep->GetStepLength();
     dedx *= 10.f * 0.07;
 
+    if( ! hasRecordedFirstDEDX ) {
+    	fprintf(chartOut, "%f %f\n", fStep->GetStepLength()/cm, fStep->GetTotalEnergyDeposit()/MeV);
+    }
+
     G4cout << std::setw( 5) << fTrack->GetCurrentStepNumber() << " "
         << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
         << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
         << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-        << std::setw(6) << dedx/(MeV/cm) << " MeV/cm" 
+        << std::setw(9) << dedx/(MeV/cm) << " MeV/cm" 
         << std::setw(9) << G4BestUnit(fTrack->GetTrackLength(),"Length");
 
     const G4VProcess* process 
@@ -117,7 +128,6 @@ void ExN02SteppingVerbose::StepInfo()
 
 void ExN02SteppingVerbose::TrackingStarted()
 {
-
   CopyState();
   G4int prec = G4cout.precision(3);
   if( verboseLevel > 0 ){
@@ -126,18 +136,20 @@ void ExN02SteppingVerbose::TrackingStarted()
            << std::setw( 9) << "KineE"      << " "
            << std::setw( 9) << "dEStep"     << " "  
            << std::setw(10) << "StepLeng"   << " "  
-           << std::setw(9) << "dE/dx"
+           << std::setw(14) << "dE/dx"
            << std::setw(14) << "TrakLeng"   << G4endl;
 
     G4cout << std::setw(5) << fTrack->GetCurrentStepNumber() << " "
         << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
         << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
         << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-        << std::setw(6) << "und"
+        << std::setw(9) << "und"
         << std::setw(9) << G4BestUnit(fTrack->GetTrackLength(),"Length")
         << "   initStep" << G4endl;        
   }
   G4cout.precision(prec);
+  
+  hasRecordedFirstDEDX = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

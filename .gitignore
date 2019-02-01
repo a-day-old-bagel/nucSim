@@ -284,8 +284,8 @@ __pycache__/
 *.lib
 
 # Executables
+# *.out is unfortunately used by geant4
 *.exe
-*.out
 *.app
 
 # VIM files
@@ -325,3 +325,6 @@ CMakeSettings.json
 cmake-build*
 *CMakeFiles*
 *CMakeCache*
+
+# Geant4 build directory
+/geant4
