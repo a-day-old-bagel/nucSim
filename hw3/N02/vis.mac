@@ -80,7 +80,7 @@
 # Actual
 /tracking/verbose 1
 /gun/particle kaon+
-/gun/energy 15 MeV
+/gun/energy 75 MeV
 /run/beamOn 1
 
 

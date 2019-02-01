@@ -123,11 +123,11 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
 //--------- Sizes of the principal geometrical components (solids)  ---------
   
   NbOfChambers = 1;
-  ChamberWidth = 20*cm;
+  ChamberWidth = 50*cm;
   ChamberSpacing = 80*cm;
   
   fTrackerLength = (NbOfChambers+1)*ChamberSpacing; // Full length of Tracker
-  fTargetLength  = 5.0 * cm;                        // Full length of Target
+  fTargetLength  = 50.0 * cm;                        // Full length of Target
   
   TargetMater = LH2;
   ChamberMater = Xenon;

@@ -37,11 +37,11 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 FILE *chartOut;
-static bool hasRecordedFirstDEDX = false;
+static int chartOutEvents = 0;
 
 ExN02SteppingVerbose::ExN02SteppingVerbose()
 {
-	chartOut = fopen("chart.txt", "w");	
+	chartOut = fopen("nrgyVsDedx.dat", "w");	
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -71,11 +71,15 @@ void ExN02SteppingVerbose::StepInfo()
              << std::setw(14) << "TrakLeng"   << G4endl; 
     }
 
-    float dedx = fStep->GetTotalEnergyDeposit() / fStep->GetStepLength();
-    dedx *= 10.f * 0.07;
+    float nrgy = fTrack->GetKineticEnergy();
+    float dedx = 0;
+    if( fStep->GetStepLength() ) {
+      dedx = fStep->GetTotalEnergyDeposit() / fStep->GetStepLength();
+    }
+    dedx *= 10.f / 0.07;
 
-    if( ! hasRecordedFirstDEDX ) {
-    	fprintf(chartOut, "%f %f\n", fStep->GetStepLength()/cm, fStep->GetTotalEnergyDeposit()/MeV);
+    if( chartOutEvents == 1 ) {
+    	fprintf(chartOut, "%f %f\n", nrgy/MeV, dedx/(MeV/cm));
     }
 
     G4cout << std::setw( 5) << fTrack->GetCurrentStepNumber() << " "
@@ -149,7 +153,7 @@ void ExN02SteppingVerbose::TrackingStarted()
   }
   G4cout.precision(prec);
   
-  hasRecordedFirstDEDX = false;
+  ++chartOutEvents;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
