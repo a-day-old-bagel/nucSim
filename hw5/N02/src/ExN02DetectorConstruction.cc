@@ -110,7 +110,7 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
   );
 
   G4Material *Cu = new G4Material(
-    "Copper", z = 29., a = 63.546 * g/mole, density = 8.962 * g/mole
+    "Copper", z = 29., a = 63.546 * g/mole, density = 8.962 * g/cm3
   );
     
   G4Material *Xenon = new G4Material(
@@ -129,12 +129,12 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
   ChamberSpacing = 80*cm;
   
   fTrackerLength = (NbOfChambers + 1) * ChamberSpacing;
-  fTargetLength  = 100.0 * cm;
+  fTargetLength  = 12.0 * cm;
   
   TargetMater = Cu;
   ChamberMater = Xenon;
   
-  fWorldLength= 1.2 * (fTargetLength + fTrackerLength);
+  fWorldLength= 1.5 * (fTargetLength + fTrackerLength);
    
   G4double targetSize  = 0.5 * fTargetLength;  
   G4double trackerSize = 0.5 * fTrackerLength;

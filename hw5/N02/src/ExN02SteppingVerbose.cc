@@ -62,13 +62,14 @@ void ExN02SteppingVerbose::StepInfo()
   if( verboseLevel >= 1 ){
     if( verboseLevel >= 4 ) VerboseTrack();
     if( verboseLevel >= 3 ){
-      G4cout << G4endl;    
-      G4cout << std::setw( 5) << "#Step#"     << " "
-             << std::setw( 9) << "KineE"      << " "
-             << std::setw( 9) << "dEStep"     << " "  
-             << std::setw(10) << "StepLeng"   << " "     
-             << std::setw(14) << "dE/dx"
-             << std::setw(14) << "TrakLeng"   << G4endl; 
+      G4cout
+        << G4endl    
+        << std::setw( 2) << "#"
+        << std::setw(10) << "E"
+        << std::setw(10) << "dE"
+        << std::setw( 9) << "dx"
+        << std::setw(17) << "dE/dx"
+        << G4endl; 
     }
 
     float nrgy = fTrack->GetKineticEnergy();
@@ -82,19 +83,19 @@ void ExN02SteppingVerbose::StepInfo()
     	fprintf(chartOut, "%f %f\n", nrgy/MeV, dedx/(MeV/cm));
     }
 
-    G4cout << std::setw( 5) << fTrack->GetCurrentStepNumber() << " "
-        << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
-        << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
-        << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-        << std::setw(9) << dedx/(MeV/cm) << " MeV/cm" 
-        << std::setw(9) << G4BestUnit(fTrack->GetTrackLength(),"Length");
+    G4cout
+      << std::setw(2) << fTrack->GetCurrentStepNumber()
+      << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
+      << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
+      << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
+      << std::setw(9) << dedx/(MeV/cm) << " MeV/cm"; 
 
     const G4VProcess* process 
                       = fStep->GetPostStepPoint()->GetProcessDefinedStep();
     G4String procName = " UserLimit";
     if (process) procName = process->GetProcessName();
     if (fStepStatus == fWorldBoundary) procName = "OutOfWorld";
-    G4cout << "   " << std::setw(10) << procName;
+    G4cout << std::setw(15) << procName;
     G4cout << G4endl;
 
     if( verboseLevel == 2 ){
@@ -136,20 +137,23 @@ void ExN02SteppingVerbose::TrackingStarted()
   G4int prec = G4cout.precision(3);
   if( verboseLevel > 0 ){
 
-    G4cout << std::setw( 5) << "Step#"      << " "
-           << std::setw( 9) << "KineE"      << " "
-           << std::setw( 9) << "dEStep"     << " "  
-           << std::setw(10) << "StepLeng"   << " "  
-           << std::setw(14) << "dE/dx"
-           << std::setw(14) << "TrakLeng"   << G4endl;
+    G4cout
+      << std::setw( 2) << "#"
+      << std::setw(10) << "E"
+      << std::setw(10) << "dE"
+      << std::setw( 9) << "dx"
+      << std::setw(17) << "dE/dx"
+      << std::setw(15) << "step"
+      << G4endl;
 
-    G4cout << std::setw(5) << fTrack->GetCurrentStepNumber() << " "
-        << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
-        << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
-        << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-        << std::setw(9) << "und"
-        << std::setw(9) << G4BestUnit(fTrack->GetTrackLength(),"Length")
-        << "   initStep" << G4endl;        
+    G4cout
+      << std::setw( 2) << fTrack->GetCurrentStepNumber()
+      << std::setw( 6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
+      << std::setw( 6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
+      << std::setw( 6) << G4BestUnit(fStep->GetStepLength(),"Length")
+      << std::setw( 9) << "---"
+      << std::setw(22) << "initStep"
+      << G4endl;        
   }
   G4cout.precision(prec);
   
