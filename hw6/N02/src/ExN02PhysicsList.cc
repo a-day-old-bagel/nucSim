@@ -26,8 +26,6 @@
 //
 // $Id: ExN02PhysicsList.cc 69899 2013-05-17 10:05:33Z gcosmo $
 //
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "globals.hh"
 #include "ExN02PhysicsList.hh"
@@ -37,20 +35,14 @@
 #include "G4SystemOfUnits.hh"
 #include "G4IonConstructor.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 ExN02PhysicsList::ExN02PhysicsList():  G4VUserPhysicsList()
 {
   defaultCutValue = 1.0*cm;
    SetVerboseLevel(1);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 ExN02PhysicsList::~ExN02PhysicsList()
 {}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ExN02PhysicsList::ConstructParticle()
 {
@@ -67,8 +59,6 @@ void ExN02PhysicsList::ConstructParticle()
   pIonConstructor.ConstructParticle(); 
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::ConstructBosons()
 {
   // pseudo-particles
@@ -78,8 +68,6 @@ void ExN02PhysicsList::ConstructBosons()
   // gamma
   G4Gamma::GammaDefinition();
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ExN02PhysicsList::ConstructLeptons()
 {
@@ -98,8 +86,6 @@ void ExN02PhysicsList::ConstructLeptons()
   G4AntiNeutrinoMu::AntiNeutrinoMuDefinition();
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::ConstructMesons()
 {
   //  mesons
@@ -117,8 +103,6 @@ void ExN02PhysicsList::ConstructMesons()
   G4KaonZeroShort::KaonZeroShortDefinition();
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::ConstructBaryons()
 {
   //  barions
@@ -129,8 +113,6 @@ void ExN02PhysicsList::ConstructBaryons()
   G4AntiNeutron::AntiNeutronDefinition();
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::ConstructProcess()
 {
   AddTransportation();
@@ -138,8 +120,6 @@ void ExN02PhysicsList::ConstructProcess()
   ConstructGeneral();
   AddStepMax();
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "G4PhysicsListHelper.hh"
 
@@ -164,8 +144,6 @@ void ExN02PhysicsList::ConstructProcess()
 
 #include "G4ionIonisation.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::ConstructEM()
 {
   G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
@@ -177,14 +155,14 @@ void ExN02PhysicsList::ConstructEM()
     
     if (particleName == "gamma") {
       // gamma         
-      ph->RegisterProcess(new G4PhotoElectricEffect, particle);
-      ph->RegisterProcess(new G4ComptonScattering,   particle);
-      ph->RegisterProcess(new G4GammaConversion,     particle);
+//      ph->RegisterProcess(new G4PhotoElectricEffect, particle);
+//      ph->RegisterProcess(new G4ComptonScattering,   particle);
+//      ph->RegisterProcess(new G4GammaConversion,     particle);
       
     } else if (particleName == "e-") {
       //electron
-      ph->RegisterProcess(new G4eMultipleScattering, particle);
-      ph->RegisterProcess(new G4eIonisation,         particle);
+//      ph->RegisterProcess(new G4eMultipleScattering, particle);
+//      ph->RegisterProcess(new G4eIonisation,         particle);
       ph->RegisterProcess(new G4eBremsstrahlung,     particle);      
 
     } else if (particleName == "e+") {
@@ -232,8 +210,6 @@ void ExN02PhysicsList::ConstructEM()
   }
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #include "G4Decay.hh"
 
 void ExN02PhysicsList::ConstructGeneral()
@@ -251,8 +227,6 @@ void ExN02PhysicsList::ConstructGeneral()
   }
 }
   
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #include "G4StepLimiter.hh"
 #include "G4UserSpecialCuts.hh"
 
@@ -275,8 +249,6 @@ void ExN02PhysicsList::AddStepMax()
   }
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02PhysicsList::SetCuts()
 {
   //G4VUserPhysicsList::SetCutsWithDefault method sets 
@@ -286,6 +258,4 @@ void ExN02PhysicsList::SetCuts()
      
   if (verboseLevel>0) DumpCutValuesTable();
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

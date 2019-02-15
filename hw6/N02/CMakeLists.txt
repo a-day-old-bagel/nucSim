@@ -40,7 +40,7 @@ target_link_libraries(exampleN02 ${Geant4_LIBRARIES} )
 # relies on these scripts being in the current working directory.
 #
 set(N02_SCRIPTS
-    exampleN02.in exampleN02.large_N.in exampleN02.out run1.mac run2.mac vis.mac
+    exampleN02.in exampleN02.large_N.in exampleN02.out vis.mac brem.mac
   )
 
 foreach(_script ${N02_SCRIPTS})

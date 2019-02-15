@@ -26,8 +26,6 @@
 //
 // $Id: ExN02DetectorConstruction.cc 69899 2013-05-17 10:05:33Z gcosmo $
 //
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo...... 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
 #include "ExN02DetectorConstruction.hh"
 #include "ExN02DetectorMessenger.hh"
@@ -52,8 +50,6 @@
 #include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
 ExN02DetectorConstruction::ExN02DetectorConstruction()
 :solidWorld(0),  logicWorld(0),  physiWorld(0),
  solidTarget(0), logicTarget(0), physiTarget(0), 
@@ -68,8 +64,6 @@ ExN02DetectorConstruction::ExN02DetectorConstruction()
   detectorMessenger = new ExN02DetectorMessenger(this);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
 ExN02DetectorConstruction::~ExN02DetectorConstruction()
 {
   delete fpMagField;
@@ -78,8 +72,6 @@ ExN02DetectorConstruction::~ExN02DetectorConstruction()
   delete detectorMessenger;             
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
 G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
 {
 //--------- Material definition ---------
@@ -118,6 +110,14 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
     kStateGas, temperature = 293.15 * kelvin, pressure = 1 * atmosphere
   );
 
+  G4Material *Tnt = new G4Material(
+    "Tantalum", z = 73., a = 180.9479 *g/mole, density = 16.654 * g/cm3
+  );
+
+  G4Material *C12 = new G4Material(
+    "Graphite", z = 6, a = 12.011 * g/mole, density = 2.226 * g/cm3
+  );
+
   // Print all the materials defined.
   G4cout << G4endl << "The materials defined are : " << G4endl << G4endl;
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -129,9 +129,9 @@ G4VPhysicalVolume* ExN02DetectorConstruction::Construct()
   ChamberSpacing = 80*cm;
   
   fTrackerLength = (NbOfChambers + 1) * ChamberSpacing;
-  fTargetLength  = 12.0 * cm;
+  fTargetLength  = 0.4 * cm;
   
-  TargetMater = Cu;
+  TargetMater = C12;
   ChamberMater = Xenon;
   
   fWorldLength= 1.5 * (fTargetLength + fTrackerLength);

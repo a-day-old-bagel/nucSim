@@ -26,38 +26,43 @@
 //
 // $Id: ExN02SteppingVerbose.cc 69899 2013-05-17 10:05:33Z gcosmo $
 // 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo...... 
 
 #include "ExN02SteppingVerbose.hh"
-
 #include "G4SteppingManager.hh"
 #include "G4UnitsTable.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-FILE *chartOut;
-static int chartOutEvents = 0;
+FILE *fileOut;
 
 ExN02SteppingVerbose::ExN02SteppingVerbose()
 {
-	chartOut = fopen("nrgyVsDedx.dat", "w");	
+	fileOut = fopen("Brem.dat", "w");	
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 ExN02SteppingVerbose::~ExN02SteppingVerbose()
 {
-	fclose(chartOut);
+	fclose(fileOut);
 } 
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ExN02SteppingVerbose::StepInfo()
 {
   CopyState();
 
   G4int prec = G4cout.precision(3);
+
+  if( fTrack->GetDefinition()->GetPDGEncoding() == 22 &&
+      fTrack->GetCurrentStepNumber() == 1 && fTrack->GetKineticEnergy() > 0) {
+    std::stringstream fileOutSS;
+    fileOutSS
+      << fTrack->GetKineticEnergy() << "    "
+      << fTrack->GetPosition().x()  << "    "
+      << fTrack->GetPosition().y()  << "    "
+      << fTrack->GetPosition().z()  << "    "
+      << fTrack->GetMomentum().x()  << "    "
+      << fTrack->GetMomentum().y()  << "    "
+      << fTrack->GetMomentum().z()  << "    "
+      << G4endl;
+    fprintf(fileOut, "%s", fileOutSS.str().c_str());
+  }
 
   if( verboseLevel >= 1 ){
     if( verboseLevel >= 4 ) VerboseTrack();
@@ -72,23 +77,12 @@ void ExN02SteppingVerbose::StepInfo()
         << G4endl; 
     }
 
-    float nrgy = fTrack->GetKineticEnergy();
-    float dedx = 0;
-    if( fStep->GetStepLength() ) {
-      dedx = fStep->GetTotalEnergyDeposit() / fStep->GetStepLength();
-    }
-    dedx *= 10.f / 0.07;
-
-    if( chartOutEvents == 1 ) {
-    	fprintf(chartOut, "%f %f\n", nrgy/MeV, dedx/(MeV/cm));
-    }
-
     G4cout
       << std::setw(2) << fTrack->GetCurrentStepNumber()
       << std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
       << std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
       << std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-      << std::setw(9) << dedx/(MeV/cm) << " MeV/cm"; 
+      << G4endl;
 
     const G4VProcess* process 
                       = fStep->GetPostStepPoint()->GetProcessDefinedStep();
@@ -129,8 +123,6 @@ void ExN02SteppingVerbose::StepInfo()
   G4cout.precision(prec);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void ExN02SteppingVerbose::TrackingStarted()
 {
   CopyState();
@@ -142,7 +134,6 @@ void ExN02SteppingVerbose::TrackingStarted()
       << std::setw(10) << "E"
       << std::setw(10) << "dE"
       << std::setw( 9) << "dx"
-      << std::setw(17) << "dE/dx"
       << std::setw(15) << "step"
       << G4endl;
 
@@ -151,13 +142,9 @@ void ExN02SteppingVerbose::TrackingStarted()
       << std::setw( 6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
       << std::setw( 6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
       << std::setw( 6) << G4BestUnit(fStep->GetStepLength(),"Length")
-      << std::setw( 9) << "---"
       << std::setw(22) << "initStep"
       << G4endl;        
   }
   G4cout.precision(prec);
-  
-  ++chartOutEvents;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
