@@ -81,6 +81,6 @@
 /tracking/verbose 1
 /gun/particle kaon+
 /gun/energy 75 MeV
-/run/beamOn 1
+/run/beamOn 10
 
 

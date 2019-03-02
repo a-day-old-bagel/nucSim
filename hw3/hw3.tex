@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+
+\title{Homework 3}
+\author{Galen Cochrane}
+\date{2019 January 31}
+
+\begin{document}
+\maketitle
+
+My particle is a kaon with energy 15 $MeV$.
+Solving for energy loss by hand, we have
+
+\begin{center}
+$-\frac{dE}{dx}= \frac{\mathcal{K} }{A} \frac{z^2 Z}{\beta^2} \ln \frac{2 \gamma^2 m_e \beta^2 c^2}{I}$
+\end{center}
+
+\begin{center}
+with
+\end{center}
+
+\begin{center}
+${A}=1, {Z}=1, {m_e c^2}=0.511{MeV}, {I}=21.8{eV}$
+\end{center}
+
+\begin{center}
+$\gamma = \frac{K.E.}{mc^2} + 1 = \frac{15 MeV}{498 MeV} + 1 \sim 1 = \frac{1}{\sqrt{1-\beta^2}}$
+\end{center}
+
+\begin{center}
+$v^2 = \frac{2 K.E.}{m} = \frac{2 \cdot 15 MeV}{498 MeV/c^2} = 6 \times 10^{-2} c^2 \Rightarrow \beta^2 = \frac{v^2}{c^2} = 6\times 10^{-2}$
+\end{center}
+
+\begin{center}
+$\frac{dE}{dx} = \left ( 0.307 \frac{MeV \cdot cm^2}{g}\right ) (1)^2 (1) \frac{1}{6 \times10^{-2}} \ln \left( \frac{2 (1) (0.511 MeV) (6 \times10^{-2})}{21.8 eV} \frac{10^6 eV}{MeV}\right)$
+\end{center}
+
+\begin{center}
+$\frac{dE}{dx} = 41\frac{MeV cm^2}{g}$
+\end{center}
+
+Plugging in the density of the target material to see how much energy is lost after the kaon has travelled .5 cm through it, we get
+
+\begin{center}
+$\rho_{LH_2} = 0.07 \frac{g}{cm^3}$
+\end{center}
+
+\begin{center}
+$\Delta E = (41 \frac{MeV cm^2}{g}) (0.07 \frac{g}{cm^3}) (0.5 cm) = 1.4{MeV}$
+\end{center}
+
+The values I was seeing for $\frac{dE}{dx}$ in Geant4 seemed to vary pretty wildly (I suppose due to the simulations stochasticity), but the hand-calculated value didn't seem far off.
+The operation of Geant4 looked like this:
+
+\includegraphics[width=12.7cm]{process.png}
+
+My plot of energy loss ($\frac{{MeV}\cdot{cm^{2}}}{g}$) as a function of energy ($MeV$):
+
+\includegraphics[width=12.7cm]{E-vs-d-Ed-X.png}
+
+\end{document}
