@@ -1,0 +1,22 @@
+General:
+
+Root graphing formatting, right click over data when pointer changes -> "DrawPanel" -> click on elements to view/edit properties in DrawPanel
+
+Other graphing utility: grace / xmgrace
+
+Change "PhysicsList" to exclude effects from geant4 simulations
+
+"sames" instead of "same" when plotting two things can help
+
+
+
+
+HW8:
+
+Custom Commands:
+...
+./DiffEXsect 100 1000000 1000 > DiffEXsect.dat
+...
+DiffEXsect->Draw("Electron >> h222(100,0,1000000)","dSigma_dE")
+
+Only detect the first compton even in geant4 by setting a flag in SteppingVerbose on the first interaction and turning it off for following events until next particle starts.
